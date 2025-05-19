@@ -2,43 +2,44 @@ package com.example.demo.controller;
 
 
 
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.demo.dto.EmployeePayRollDTO;
 import com.example.demo.model.EmployeePayrollData;
-
-import java.util.Map;
+import com.example.demo.service.EmployeePayrollService;
 import jakarta.validation.Valid;
 
 
 @RestController
 @RequestMapping("/employeepayrollservice")
-public class EmployeePayRoll{
-
+public class EmployeePayRollController {
+    @Autowired
+	private EmployeePayrollService eps;
     @GetMapping("/")
     public String getAllEmployees() {
-        return "Get all employee payroll data";
+        return eps.getAllEmployees();
     }
 
     @GetMapping("/get/{id}")
     public String getEmployee(@PathVariable("id") int id) {
-        return "Get employee data for ID: " + id;
+        return eps.getEmployee(id);
     }
-
     
     @PostMapping("/create")
     public EmployeePayrollData createEmployee(@Valid @RequestBody EmployeePayRollDTO empDTO) {
-        return new EmployeePayrollData(empDTO.getName(), empDTO.getSalary());
+        return eps.createEmployee(new EmployeePayRollDTO(empDTO.getName(),empDTO.getSalary()));
     }
 
 
-    @PutMapping("/update")
-    public String updateEmployee(@RequestBody Map<String, Object> employeeData) {
-        return "Updated employee: " + employeeData;
+    @PutMapping("/update/{id}")
+    public String updateEmployee(@PathVariable int id,@RequestBody EmployeePayRollDTO employeeData) {
+        return eps.updateEmployee(id,new EmployeePayRollDTO(employeeData.getName(),employeeData.getSalary()) );
     }
 
     @DeleteMapping("/delete/{id}")
     public String deleteEmployee(@PathVariable("id") int id) {
-        return "Deleted employee with ID: " + id;
+        return eps.deleteEmployee(id);
     }
 }
