@@ -1,26 +1,26 @@
-package com.example.demo.model;
+package com.example.demo.dto;
 
 
-public class EmployeePayrollData {
-	private static int counter = 1;
-    private int id;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+
+public class EmployeePayRollDTO {
+
+    @NotBlank(message = "Employee name cannot be null or empty")
     private String name;
+
+    @Min(value = 500, message = "Salary should be more than 500")
     private long salary;
 
     // Constructors
-    public EmployeePayrollData() {}
+    public EmployeePayRollDTO() {}
 
-    public EmployeePayrollData(String name, long salary) {
-        this.id = counter++;
+    public EmployeePayRollDTO(String name, long salary) {
         this.name = name;
         this.salary = salary;
     }
 
     // Getters
-    public int getId() {
-        return id;
-    }
-
     public String getName() {
         return name;
     }
@@ -30,10 +30,6 @@ public class EmployeePayrollData {
     }
 
     // Setters
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public void setName(String name) {
         this.name = name;
     }
@@ -44,6 +40,6 @@ public class EmployeePayrollData {
 
     @Override
     public String toString() {
-        return "EmployeePayrollData [id=" + id + ", name=" + name + ", salary=" + salary + "]";
+        return "EmployeePayrollDTO [name=" + name + ", salary=" + salary + "]";
     }
 }
